@@ -15,37 +15,7 @@ function generateBookObject(id, title, author, year, isComplete) {
   };
 }
 
-function addBookObject() {
-  const bookTitle = document.getElementById("inputBookTitle").value;
-  const bookAuthor = document.getElementById("inputBookAuthor").value;
-  const bookYear = document.getElementById("inputBookYear").value;
-  const isComplete = document.getElementById("inputBookIsComplete").checked;
-
-  const generateId = generateID();
-  const bookListItem = generateBookObject(
-    generateId,
-    bookTitle,
-    bookAuthor,
-    bookYear,
-    isComplete
-  );
-  console.log("Book List Item: " + bookListItem);
-  books.push(bookListItem);
-  document.dispatchEvent(new Event(RENDER_BOOK));
-}
-
-function deleteBook(event) {
-  const idTarget = event.target.id;
-  const indexTarget = books.findIndex((book) => book.id === idTarget);
-  // console.log(idTarget, indexTarget);
-  // books.filter((book) => book.id !== idTarget);
-  if (indexTarget) {
-    books.splice(indexTarget, 1);
-  }
-  document.dispatchEvent(new Event(RENDER_BOOK));
-}
-
-function makeBookObject() {
+function makeBookObject(books) {
   const inCompleteBook = document.getElementById("incompleteBookshelfList");
   const completedBook = document.getElementById("completeBookshelfList");
 
@@ -107,18 +77,49 @@ function makeBookObject() {
   }
 }
 
+function addBookObject() {
+  const bookTitle = document.querySelector("#inputBookTitle").value;
+  const bookAuthor = document.querySelector("#inputBookAuthor").value;
+  const bookYear = document.querySelector("#inputBookYear").value;
+  const isComplete = document.querySelector("#inputBookIsComplete").checked;
+
+  const generateId = generateID();
+  const bookObject = generateBookObject(
+    generateId,
+    bookTitle,
+    bookAuthor,
+    bookYear,
+    isComplete
+  );
+  books.push(bookObject);
+  document.dispatchEvent(new Event(RENDER_BOOK));
+}
+
+// delete function
+function deleteBook(event) {
+  const idTarget = event.target.id;
+  const indexTarget = books.findIndex(function (book) {
+    book.id === idTarget;
+  });
+
+  console.log("index" + indexTarget, "id" + idTarget);
+  document.dispatchEvent(new Event(RENDER_BOOK));
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const inputBookForm = document.getElementById("inputBook");
 
   inputBookForm.addEventListener("submit", function (e) {
     e.preventDefault();
     addBookObject();
-    console.log("Books: " + books);
   });
 });
 
 document.addEventListener(RENDER_BOOK, function () {
+  makeBookObject(books);
+
+  console.log(books);
   for (const book of books) {
-    makeBookObject(book);
+    console.log(book);
   }
 });
