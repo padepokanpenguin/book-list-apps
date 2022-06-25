@@ -97,13 +97,18 @@ function addBookObject() {
 
 // delete function
 function deleteBook(event) {
-  const idTarget = event.target.id;
+  const idTarget = +event.target.id;
+
   const indexTarget = books.findIndex(function (book) {
-    book.id === idTarget;
+    return book.id === idTarget;
   });
 
-  console.log("index" + indexTarget, "id" + idTarget);
-  document.dispatchEvent(new Event(RENDER_BOOK));
+  if (
+    -1 !== indexTarget &&
+    (books.splice(indexTarget, 1),
+    document.dispatchEvent(new Event(RENDER_BOOK)))
+  )
+    return;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -118,8 +123,8 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener(RENDER_BOOK, function () {
   makeBookObject(books);
 
-  console.log(books);
-  for (const book of books) {
-    console.log(book);
-  }
+  // console.log(books);
+  // for (const book of books) {
+  //   console.log(book);
+  // }
 });
