@@ -151,6 +151,8 @@ function getLocalStorage() {
       }
     }
   }
+
+  document.dispatchEvent(new Event(RENDER_BOOK));
 }
 
 document.addEventListener("DOMContentLoaded", function () {
