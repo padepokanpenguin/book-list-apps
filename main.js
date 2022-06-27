@@ -112,6 +112,7 @@ function deleteBook(event) {
   if (-1 !== indexTarget) {
     books.splice(indexTarget, 1);
     document.dispatchEvent(new Event(RENDER_BOOK));
+    saveLocalStorage();
     return;
   }
 }
@@ -122,6 +123,7 @@ function addCompletedBook(event) {
   const findBook = books.find((book) => book.id === idTarget);
 
   findBook.isComplete = true;
+  saveLocalStorage();
   document.dispatchEvent(new Event(RENDER_BOOK));
 }
 
@@ -131,6 +133,7 @@ function removeCompletedBook(event) {
   const findBook = books.find((book) => book.id === idTarget);
 
   findBook.isComplete = false;
+  saveLocalStorage();
   document.dispatchEvent(new Event(RENDER_BOOK));
 }
 
